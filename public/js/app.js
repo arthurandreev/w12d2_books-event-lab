@@ -1,29 +1,32 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-
   const form = document.querySelector('#book-form');
   form.addEventListener('submit', handleFormSubmit);
+
+  const deleteButton = document.querySelector('#delete-all');
+  deleteButton.addEventListener('click', handleDelete);
 });
 
+const handleFormSubmit = function(event){
+  event.preventDefault();
 
-  const handleFormSubmit = function(event){
-    event.preventDefault();
-    // getValue(item);
-    const title = getValue('#title');
-    const author = getValue('#author');
-    // const category = getValue('#category');
-    const subject = getValue('#genre');
-    const container = document.querySelector('#book-list');
-    addBookItem(title, author, subject, container);
-  }
+  const title = this.title.value;
+  const author = this.author.value;
+  const category = document.querySelector('input[name="category"]:checked').value;
+  const subject = this.genre.value;
+  const container = document.querySelector('#book-list');
 
-  const getValue = function(id){
-    const item = document.querySelector(id);
-    return item.value;
-  }
+  addBookItem(title, author, category, subject, container);
+  this.reset();
+}
 
-  const addBookItem = function(title, author, subject, container){
-    const string = document.createElement('p');
-    string.textContent = `${title}, ${author}, ${subject}`;
-    container.appendChild(string);
-  }
+const addBookItem = function(title, author, category, subject, container){
+  const string = document.createElement('p');
+  string.textContent = `${title}, ${author}, ${category}, ${subject}`;
+  container.appendChild(string);
+}
+
+const handleDelete = function() {
+  const container = document.querySelector('#book-list');
+  container.textContent = '';
+}
